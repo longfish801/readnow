@@ -1,0 +1,6 @@
+.gradle
+.vscode
+build
+Thumbs.db
+amaisbn/node_modules
+webpack/node_modules

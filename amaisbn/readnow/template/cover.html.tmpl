@@ -1,0 +1,17 @@
+<html lang="ja">
+<head>
+	<meta charset="utf-8" />
+	<title>書影確認用HTMLファイル</title>
+</head>
+<body>
+<h1>書影確認用HTMLファイル</h1>
+<% bookInfos.each { Map info -> %>
+	<hr />
+	<h2>${info.name}</h2>
+	<div class="bookinfo">
+		<img src="https://ndlsearch.ndl.go.jp/thumbnail/${info.isbn}.jpg" />
+		<a href="https://www.amazon.co.jp/${info.path}">Amazon商品ページ</a>
+	</div>
+<% } %>
+</body>
+</html>

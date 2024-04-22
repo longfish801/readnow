@@ -1,0 +1,45 @@
+/**
+ * style.css
+ */
+
+/* ページ内目次 */
+.toc {
+	background-color: rgba(0.2, 0.2, 0.2, 0.1);
+	border-radius: 5px;
+	line-height: 1.7rem;
+	margin: 0.2rem 0rem;
+	padding: 1.2rem 0.5rem;
+}
+ul.toc {
+	list-style: none;
+}
+/* 感想 */
+div.review {
+	margin-bottom: 2rem;
+}
+/* 書誌情報 */
+div.biblio {
+	background-color: rgba(0.2, 0.2, 0.2, 0.1);
+	border-radius: 5px;
+	font-size: 1.3rem;
+	padding: 1.2rem 0.5rem;
+	margin: 0.2rem 0rem;
+}
+span.tag {
+	background-color: #FFCC99;
+	border-radius: 10px;
+	font-size: 1.1rem;
+	padding: 0.5rem 0.5rem;
+	margin: 0rem 0.2rem;
+}
+span.best {
+	background-color: #FFCC99;
+	border-radius: 10px;
+	font-size: 1.1rem;
+	padding: 0.5rem 0.5rem;
+	margin: 0rem 0.2rem;
+}
+/* 隠蔽 */
+div.unseen {
+	margin: 0.7rem 0rem;
+}

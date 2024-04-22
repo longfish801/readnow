@@ -1,0 +1,7 @@
+describe('amaisbn', () => {
+<% reviews.each { String name, String keyword -> %>
+  it('${name}', () => {
+    cy.get_isbn('${name}', '${keyword}')
+  })
+<% } %>
+})

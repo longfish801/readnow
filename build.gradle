@@ -1,0 +1,93 @@
+/*
+ * build.gradle
+ *
+ * Copyright (C) io.github.longfish801 All Rights Reserved.
+ */
+
+plugins {
+	id 'groovy'
+	id 'java'
+	id 'java-library'
+}
+
+defaultTasks 'usage'
+
+repositories {
+	mavenCentral()
+	maven { url 'https://longfish801.github.io/maven/' }
+}
+
+dependencies {
+	implementation 'io.github.longfish801:gonfig:1.1.00'
+	implementation 'io.github.longfish801:tpac:1.2.00'
+	implementation 'io.github.longfish801:yakumo:1.4.00'
+	implementation 'org.codehaus.groovy:groovy-all:3.0.9'
+	implementation 'org.slf4j:slf4j-api:1.7.36'
+	testImplementation 'ch.qos.logback:logback-classic:1.2.11'
+	testImplementation('org.spockframework:spock-core:2.1-groovy-3.0') {
+		exclude group: 'org.codehaus.groovy'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
+
+// 使用方法を表示します
+tasks.register('usage') {
+	println 'See design/operation.md.'
+}
+
+// 使用方法を表示します
+tasks.register('setup') {
+	def process
+	String npmCmd = /C:\Program Files\nodejs\npm.cmd/
+	String npxCmd = /C:\Program Files\nodejs\npx.cmd/
+	// Cypress実行ツールに必要なパッケージをインストールします
+	println '=== Install packages for ISBN tool.'
+	process = "${npmCmd} install".execute(null, new File('amaisbn'))
+	println process.text
+	// サイト表示スクリプト生成ツールに必要なパッケージをインストールします
+	println '=== Install packages for Webpack.'
+	process = "${npmCmd} install".execute(null, new File('webpack'))
+	println process.text
+	// サイト表示スクリプト生成ツールに必要なパッケージをインストールします
+	println '=== Generate script by webpack.'
+	process = "${npxCmd} webpack".execute(null, new File('webpack'))
+	println process.text
+}
+
+// 追加感想履歴ファイルを追加感想最新ファイルに変換します
+tasks.register('latest', JavaExec) {
+	dependsOn 'classes'
+	mainClass = 'executor.AddDataConvertor'
+	classpath = sourceSets.test.runtimeClasspath
+}
+
+// ISBNを調べます
+tasks.register('isbn', JavaExec) {
+	dependsOn 'classes'
+	mainClass = 'executor.ISBNGetter'
+	classpath = sourceSets.test.runtimeClasspath
+}
+
+// 追加感想最新ファイルを原稿に反映します
+tasks.register('merge', JavaExec) {
+	dependsOn 'classes'
+	mainClass = 'executor.DraftDataMerger'
+	classpath = sourceSets.test.runtimeClasspath
+}
+
+// 原稿ファイルから公開原稿ファイルを生成します
+tasks.register('public', JavaExec) {
+	dependsOn 'classes'
+	mainClass = 'executor.PublicDataGenerator'
+	classpath = sourceSets.test.runtimeClasspath
+}
+
+// E2Eテストを実行します
+tasks.register('e2e', JavaExec) {
+	dependsOn 'classes'
+	mainClass = 'executor.E2ETestExecutor'
+	classpath = sourceSets.test.runtimeClasspath
+}
