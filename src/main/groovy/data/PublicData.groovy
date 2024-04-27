@@ -366,7 +366,7 @@ class PublicData {
 				String id
 				String format
 				if (elem.indexOf('［') < 0){
-					id = ridx[val]
+					id = ridx[elem]
 					format = "%s"
 				} else if (elem.indexOf('［') == 0){
 					elem = elem.replaceFirst(/［([^］]+)］/, '$1\t')
