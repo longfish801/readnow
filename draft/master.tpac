@@ -1,0 +1,334 @@
+#! master
+#>
+
+#> pubyears
+2022
+2023
+#>
+
+#> authors
+#>
+
+#>> author:小森収
+#-hiraName こもり おさむ
+#>
+
+#>> author:似鳥鶏
+#-hiraName にたどり けい
+#>
+
+#>> author:結城真一郎
+#-hiraName ゆうき しんいちろう
+#>
+
+#>> author:小西マサテル
+#-hiraName こにし まさてる
+#>
+
+#>> author:市川憂人
+#-hiraName いちかわ ゆうと
+#>
+
+#>> author:伊与原新
+#-hiraName いよはら しん
+#>
+
+#>> author:新川帆立
+#-hiraName しんかわ ほたて
+#>
+
+#>> author:辻堂ゆめ
+#-hiraName つじどう ゆめ
+#>
+
+#>> author:浅野皓生
+#-hiraName あさの こうせい
+#>
+
+#>> author:倉知淳
+#-hiraName くらち じゅん
+#>
+
+#>> author:城平京
+#-hiraName しろだいら きょう
+#>
+
+#>> author:門前典之
+#-hiraName もんぜん のりゆき
+#>
+
+#>> author:天祢涼
+#-hiraName あまね りょう
+#>
+
+#>> author:麻耶雄嵩
+#-hiraName まや ゆたか
+#>
+
+#>> author:桃野雑派
+#-hiraName ももの ざっぱ
+#>
+
+#>> author:須藤古都離
+#-hiraName すどう ことり
+#>
+
+#>> author:西澤保彦
+#-hiraName にしざわ やすひこ
+#>
+
+#>> author:五条紀夫
+#-hiraName ごじょう のりお
+#>
+
+#>> author:真紀涼介
+#-hiraName まき りょうすけ
+#>
+
+#>> author:渡辺優
+#-hiraName わたなべ ゆう
+#>
+
+#>> author:深木章子
+#-hiraName みき あきこ
+#>
+
+#>> author:島田荘司
+#-hiraName しまだ そうじ
+#>
+
+#>> author:夕木春央
+#-hiraName ゆうき はるお
+#>
+
+#>> author:早坂吝
+#-hiraName はやさか やぶさか
+#>
+
+#>> author:森川智喜
+#-hiraName もりかわ ともき
+#>
+
+#>> author:弥生小夜子
+#-hiraName やよい さよこ
+#>
+
+#>> author:大滝瓶太
+#-hiraName おおたき びんた
+#>
+
+#>> author:本格ミステリ作家クラブ
+#-hiraName ほんかくみすてりさっかくらぶ
+#>
+
+#>> author:石持浅海
+#-hiraName いしもち あさみ
+#>
+
+#>> author:杉井光
+#-hiraName すぎい ひかる
+#>
+
+#>> author:井上真偽
+#-hiraName いのうえ まぎ
+#>
+
+#>> author:紙城境介
+#-hiraName かみしろ きょうすけ
+#>
+
+#>> author:久青玩具堂
+#-hiraName ひさお がんぐどう
+#>
+
+#>> author:月原渉
+#-hiraName つきはら わたる
+#>
+
+#>> author:方丈貴恵
+#-hiraName ほうじょう きえ
+#>
+
+#>> author:米澤穂信
+#-hiraName よねざわ ほのぶ
+#>
+
+#>> author:柳川一
+#-hiraName やながわ はじめ
+#>
+
+#>> author:井上悠宇
+#-hiraName いのうえ ゆう
+#>
+
+#>> author:青崎有吾
+#-hiraName あおさき ゆうご
+#>
+
+#>> author:朝永理人
+#-hiraName ともなが りと
+#>
+
+#>> author:伊吹亜門
+#-hiraName いぶき あもん
+#>
+
+#>> author:京極夏彦
+#-hiraName きょうごく なつひこ
+#>
+
+#>> author:今村昌弘
+#-hiraName いまむら まさひろ
+#>
+
+#>> author:東野圭吾
+#-hiraName ひがしの けいご
+#>
+
+#>> author:阿津川辰海
+#-hiraName あつかわ たつみ
+#>
+
+#>> author:市川哲也
+#-hiraName いちかわ てつや
+#>
+
+#>> author:白井智之
+#-hiraName しらい ともゆき
+#>
+
+#>> author:岡本好貴
+#-hiraName おかもと よしき
+#>
+
+#>> author:手代木正太郎
+#-hiraName てしろぎ しょうたろう
+#>
+
+#>> author:河野裕
+#-hiraName こうの ゆたか
+#>
+
+#>> author:貫井徳郎
+#-hiraName ぬくい とくろう
+#>
+
+#>> author:楠谷佑
+#-hiraName くすたに たすく
+#>
+
+#>> author:中村あき
+#-hiraName なかむら あき
+#>
+
+#>> author:荒木あかね
+#-hiraName あらき あかね
+#>
+
+#> tags
+#>
+
+#>> tag:特殊設定ミステリ
+#>
+
+#>> tag:お仕事ミステリ
+#>
+
+#>> tag:アンソロジー
+#>
+
+#>> tag:ユーモアミステリ
+#>
+
+#>> tag:〈虚構推理〉シリーズ
+#>
+
+#>> tag:〈蜘蛛手〉シリーズ
+#>
+
+#>> tag:社会派ミステリ
+#>
+
+#>> tag:〈化石少女〉シリーズ
+#>
+
+#>> tag:学園ミステリ
+#>
+
+#>> tag:メフィスト賞
+#>
+
+#>> tag:新潮ミステリー大賞
+#>
+
+#>> tag:日常の謎
+#>
+
+#>> tag:鮎川哲也賞
+#>
+
+#>> tag:クローズドサークル
+#>
+
+#>> tag:〈君原継雄〉シリーズ
+#>
+
+#>> tag:〈御手洗潔〉シリーズ
+#>
+
+#>> tag:〈蓮野〉シリーズ
+#>
+
+#>> tag:倒叙ミステリ
+#>
+
+#>> tag:特殊状況ミステリ
+#>
+
+#>> tag:〈シャーロック＋アカデミー〉シリーズ
+#>
+
+#>> tag:〈使用人探偵〉シリーズ
+#>
+
+#>> tag:〈葛警部〉シリーズ
+#>
+
+#>> tag:時代ミステリ
+#>
+
+#>> tag:〈アンデッドガール・マーダーファルス〉シリーズ
+#>
+
+#>> tag:〈マリア＆漣〉シリーズ
+#>
+
+#>> tag:〈聖書〉シリーズ
+#>
+
+#>> tag:〈百鬼夜行〉シリーズ
+#>
+
+#>> tag:ホラーミステリ
+#>
+
+#>> tag:〈加賀恭一郎〉シリーズ
+#>
+
+#>> tag:多重解決
+#>
+
+#>> tag:〈さよならの言い方なんて知らない。〉シリーズ
+#>
+
+#>> tag:犯人当て
+#>
+
+#> bests
+#>
+
+#>> best:私的ベスト2023
+#>
+
+#!
+
