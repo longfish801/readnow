@@ -119,16 +119,6 @@ export class Review {
 	}
 
 	/**
-	 * タイトルを返します。
-	 * @return {string} タイトル
-	 */
-	get pageTitle() {
-		return (
-			parse(this._title)
-		);
-	}
-
-	/**
 	 * ページ内目次用のリンクを返します。
 	 * @return {string} ページ内目次用のリンク
 	 */
@@ -139,12 +129,20 @@ export class Review {
 	}
 
 	/**
+	 * タイトルを返します。
+	 * @return {string} タイトル
+	 */
+	get title() {
+		return (parse(this._title));
+	}
+
+	/**
 	 * リンク付きのタイトルを返します。
 	 * @return {string} リンク付きのタイトル
 	 */
 	get titleLink() {
 		return (
-			<NavLink to={`/reviews/${this.id}`}>{this._title}</NavLink>
+			<NavLink to={`/reviews/${this.id}`}>{this.title}</NavLink>
 		);
 	}
 

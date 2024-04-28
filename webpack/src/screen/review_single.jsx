@@ -40,7 +40,7 @@ export function SingleReview() {
 			<Helmet>
 				<title>読了なう - {review.titleWithoutTag}</title>
 			</Helmet>
-			<h1 id="header">{review._title}</h1>
+			<h1 id="header">{review.title}</h1>
 			{review.content}
 		</HelmetProvider>
 	);
