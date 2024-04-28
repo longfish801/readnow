@@ -7,8 +7,11 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 export function AuthorsIndex() {
 	const { master } = useLoaderData();
+	const sortedAuthors = Object.values(master.authors).sort(function(pre, nxt) {
+		return (pre.hiraName < nxt.hiraName) ? -1 : 1;
+	});
 	let authorMap = {};
-	for (const author of Object.values(master.authors)) {
+	for (const author of sortedAuthors) {
 		// 著者名の読みの一文字目を取得します
 		let firstChr = '他';
 		if (author.hiraName.length > 0) {
@@ -19,6 +22,7 @@ export function AuthorsIndex() {
 		}
 		authorMap[firstChr].push(author);
 	}
+	const sortedKeys = Object.keys(authorMap).sort()
 	return (
 		<HelmetProvider>
 			<Helmet>
@@ -26,13 +30,13 @@ export function AuthorsIndex() {
 			</Helmet>
 			<h1 id="header">著者一覧</h1>
 			<div className="toc">
-			{Object.keys(authorMap).map((firstChr, idx) => (
+			{sortedKeys.map((firstChr, idx) => (
 				<a href={'#author' + idx} key={'toc' + idx}>{firstChr}</a>
 			)).reduce((pre, cur) => {
 				return [...pre, cur, ' / ']
 			}, []).slice(0, -1)}
 			</div>
-			{Object.keys(authorMap).map((firstChr, idx) => (
+			{sortedKeys.map((firstChr, idx) => (
 				<div key={'author' + idx}>
 					<h2 id={'author' + idx}>
 						{firstChr}
