@@ -3,10 +3,8 @@
  */
 import * as React from 'react';
 import { NavLink, Outlet, ScrollRestoration } from 'react-router-dom';
-import { useScript } from '../controller';
 
 export function Menu() {
-	useScript();
 	return (
 		<>
 			<ScrollRestoration />
