@@ -27,7 +27,7 @@ try {
 	def tool = new CypressExecutor(amaisbnDir)
 	Map keywordMap = newReviws.lowers.values().collectEntries {
 		String keyword = it.keyword
-		if (['文庫', 'ノベルス', 'ノベルズ'].any {keyword.indexOf(it) < 0}){
+		if (['文庫', 'ノベルス', 'ノベルズ'].every {keyword.indexOf(it) < 0}){
 			keyword += ' 単行本'
 		}
 		return [it.name, keyword]
