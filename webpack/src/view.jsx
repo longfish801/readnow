@@ -171,14 +171,12 @@ export class Review {
 		return (
 			<>
 				{authorList.map((author) => {
-					return reactStringReplace(author.format, /%s/g, (match, cnt) => (
-						this.master.getAuthorLink(author.id)
+					return reactStringReplace(author.format, "%s", (match, cnt) => (
+						<span key={cnt}>{this.master.getAuthorLink(author.id)}</span>
 					))
 				}).reduce((pre, cur) => {
 					return [...pre, cur, '、']
-				}, []).slice(0, -1).map((elem, idx) => {
-					return <span key={idx}>{elem}</span>
-				})}
+				}, []).slice(0, -1)}
 			</>
 		);
 	}
