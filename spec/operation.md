@@ -52,7 +52,7 @@ cd ../webpack
 npm install
 # サイト表示スクリプトを出力します
 # docs/script.jsに出力します
-npx webpack
+npm run build
 ```
 
 ## 感想の追加

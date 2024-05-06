@@ -42,7 +42,6 @@ tasks.register('usage') {
 tasks.register('setup') {
 	def process
 	String npmCmd = /C:\Program Files\nodejs\npm.cmd/
-	String npxCmd = /C:\Program Files\nodejs\npx.cmd/
 	// Cypress実行ツールに必要なパッケージをインストールします
 	println '=== Install packages for ISBN tool.'
 	process = "${npmCmd} install".execute(null, new File('amaisbn'))
@@ -51,9 +50,9 @@ tasks.register('setup') {
 	println '=== Install packages for Webpack.'
 	process = "${npmCmd} install".execute(null, new File('webpack'))
 	println process.text
-	// サイト表示スクリプト生成ツールに必要なパッケージをインストールします
+	// サイト表示スクリプトを生成します
 	println '=== Generate script by webpack.'
-	process = "${npxCmd} webpack".execute(null, new File('webpack'))
+	process = "${npmCmd} run build".execute(null, new File('webpack'))
 	println process.text
 }
 
