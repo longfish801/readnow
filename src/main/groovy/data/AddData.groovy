@@ -108,7 +108,9 @@ class AddData {
 			// 著者名、書名、その他の書誌情報を抽出します
 			String rex = /^([^『]+)『([^』]+)』（([^）]+)）$/
 			def matcher = (biblio =~ rex)
-			if (matcher.size() == 0) return [ "#> review:${biblio}" ]
+			if (matcher.size() == 0){
+				throw new Exception ("書誌情報が不正です。biblio=${biblio}")
+			}
 			String fullAuthor = matcher[0][1]
 			String fullTitle = matcher[0][2]
 			List otherBibs = matcher[0][3].split('／')
