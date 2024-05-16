@@ -117,7 +117,7 @@ class AddData {
 			// 書名を解析します
 			int titleDivIdx = fullTitle.indexOf('　')
 			String title = (titleDivIdx >= 0)? fullTitle.substring(0, titleDivIdx): fullTitle
-			title = title.replaceAll(' ', '')
+			title = title.replaceAll(' ', '_')
 			// 著者名を解析します
 			List authors = (fullAuthor.find(/[ 、]/) != null)? fullAuthor.split(/[ 、]/) : [ fullAuthor ]
 			// 略称を作成します
