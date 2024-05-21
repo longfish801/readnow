@@ -87,7 +87,13 @@ class AddData {
 
 		// tpac形式に変換して返します
 		TpacDec dec = new TpacDec(tag: 'reviews', name: 'latest')
-		reviews.each { dec << it.handle }
+		reviews.each {
+			def reviewHandle = it.handle
+			if (dec.solve('review:' + reviewHandle.name)){
+				throw new Exception("タイトルが重複しています。title=${reviewHandle.name}")
+			}
+			dec << reviewHandle
+		}
 		return dec
 	}
 
