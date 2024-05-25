@@ -3,4 +3,5 @@
 build
 Thumbs.db
 amaisbn/node_modules
+amaisbn/cypress/screenshots
 webpack/node_modules
