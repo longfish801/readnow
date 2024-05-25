@@ -3,6 +3,7 @@
  * コントローラの共通処理。
  */
 import * as React from 'react';
+import { useLocation } from 'react-router-dom';
 import { getMasterData } from './datasource';
 import { Master } from './view';
 
@@ -10,6 +11,7 @@ import { Master } from './view';
  * 外部のJavaScriptを利用します。
  */
 export function useScript() {
+	const location = useLocation();
 	React.useEffect(() => {
 		if (document.getElementById('main_external') == null) {
 			const scriptTag = document.createElement('script');
@@ -20,7 +22,7 @@ export function useScript() {
 			head.appendChild(scriptTag);
 		}
 		window.dispatchEvent(new Event('newscreen'));
-	}, []);
+	}, [location.pathname]);
 }
 
 /**
