@@ -129,7 +129,13 @@ class AddData {
 			// 略称を作成します
 			String abbre = '★' + authors.join('_') + '|' + title
 			// その他の書誌情報を解析します
-			String pubdate = (otherBibs.size() > 0)? otherBibs.removeLast() : null
+			String pubdate = (otherBibs.size() > 0)? otherBibs.removeLast() : ''
+			if (pubdate.empty){
+				throw new Exception ("刊行年月の記述がありません。biblio=${biblio}")
+			}
+			if (!(pubdate =~ /^\d{4}年\d{1,2}月$/)){
+				throw new Exception ("刊行年月の書式が不正です。biblio=${biblio}")
+			}
 			String publisher = (otherBibs.size() > 0)? otherBibs.removeLast() : null
 			List maybeCreators = (otherBibs.size() > 0)? otherBibs : []
 			List creators = []
@@ -168,7 +174,7 @@ class AddData {
 				handle.creators = creators
 			}
 			if (publisher != null) handle.publisher = publisher
-			if (pubdate != null) handle.pubdate = pubdate
+			handle.pubdate = pubdate
 			if (keywords.size() > 0) handle.keyword = keywords.join(' ')
 			handle.body = body.collect { String line ->
 				// 行頭や行末に"≫"があれば削除する
