@@ -27,7 +27,11 @@ try {
 	def tool = new CypressExecutor(amaisbnDir)
 	Map keywordMap = newReviws.lowers.values().collectEntries {
 		String keyword = it.keyword
-		if (['文庫', 'ノベルス', 'ノベルズ'].every {keyword.indexOf(it) < 0}){
+		if (keyword.indexOf(/'/) > 0){
+			keyword = keyword.replaceAll(/\'/, /\\'/)
+		}
+		if (it.publisher != '講談社タイガ'
+		 && ['文庫', 'ノベルス', 'ノベルズ'].every {keyword.indexOf(it) < 0}){
 			keyword = it.title + ' 単行本'
 		}
 		return [it.name, keyword]
