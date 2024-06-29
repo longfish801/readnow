@@ -27,12 +27,14 @@ try {
 	def tool = new CypressExecutor(amaisbnDir)
 	Map keywordMap = newReviws.lowers.values().collectEntries {
 		String keyword = it.keyword
-		if (keyword.indexOf(/'/) > 0){
-			keyword = keyword.replaceAll(/\'/, /\\'/)
-		}
+		// 講談社タイガや文庫、ノベルス/ノベルズ以外はタイトルと単行本だけで検索
 		if (it.publisher != '講談社タイガ'
 		 && ['文庫', 'ノベルス', 'ノベルズ'].every {keyword.indexOf(it) < 0}){
 			keyword = it.title + ' 単行本'
+		}
+		// シングルクォートを含む場合はエスケープする
+		if (keyword.indexOf(/'/) > 0){
+			keyword = keyword.replaceAll(/\'/, /\\'/)
 		}
 		return [it.name, keyword]
 	}
