@@ -35,23 +35,23 @@ export class Master {
 
 	/**
 	 * 著者名の後ろに読みをカッコつきで付与して返します。
-	 * 読みが空文字のときは著者名だけを返します。
+	 * 読みが著者名と同じときは、著者名だけを返します。
 	 * @return {string} 著者名をルビ付きで表示するためのHTML
 	 */
 	getAuthorHira(authorID) {
 		const author = this.authors[authorID];
-		if (author.hiraName === '') return author.name;
+		if (author.hiraName === author.name) return author.name;
 		return (<>{author.name}（{author.hiraName}）</>);
 	}
 
 	/**
 	 * 著者名をルビ付きで表示するためのHTMLを返します。
-	 * 読みが空文字のときは著者名だけを返します。
+	 * 読みが著者名と同じときは、著者名だけを返します。
 	 * @return {string} 著者名をルビ付きで表示するためのHTML
 	 */
 	getAuthorRuby(authorID) {
 		const author = this.authors[authorID];
-		if (author.hiraName === '') return author.name;
+		if (author.hiraName === author.name) return author.name;
 		return (
 			<ruby>{author.name}<rp>(</rp><rt>{author.hiraName}</rt><rp>)</rp></ruby>
 		);
@@ -186,8 +186,6 @@ export class Review {
 	 * @return {string} 刊行年月
 	 */
 	get pubdate() {
-		let month = this._pubdate.substring(4);
-		if (month.substring(0, 1) === '0') month = month.substring(1);
 		return (
 			<>
 				{convertPubdateFormat(this._pubdate)}刊行
@@ -416,6 +414,11 @@ export class ReviewsView {
 export function convertPubdateFormat(pubdate) {
 	let month = pubdate.substring(4);
 	if (month.substring(0, 1) === '0') month = month.substring(1);
+	if (month === '0'){
+		return (
+			<>{pubdate.substring(0, 4)}年</>
+		)
+	}
 	return (
 		<>{pubdate.substring(0, 4)}年{month}月</>
 	)
