@@ -35,23 +35,23 @@ export class Master {
 
 	/**
 	 * 著者名の後ろに読みをカッコつきで付与して返します。
-	 * 読みが空文字のときは著者名だけを返します。
+	 * 読みが著者名と同じときは、著者名だけを返します。
 	 * @return {string} 著者名をルビ付きで表示するためのHTML
 	 */
 	getAuthorHira(authorID) {
 		const author = this.authors[authorID];
-		if (author.hiraName === '') return author.name;
+		if (author.hiraName === author.name) return author.name;
 		return (<>{author.name}（{author.hiraName}）</>);
 	}
 
 	/**
 	 * 著者名をルビ付きで表示するためのHTMLを返します。
-	 * 読みが空文字のときは著者名だけを返します。
+	 * 読みが著者名と同じときは、著者名だけを返します。
 	 * @return {string} 著者名をルビ付きで表示するためのHTML
 	 */
 	getAuthorRuby(authorID) {
 		const author = this.authors[authorID];
-		if (author.hiraName === '') return author.name;
+		if (author.hiraName === author.name) return author.name;
 		return (
 			<ruby>{author.name}<rp>(</rp><rt>{author.hiraName}</rt><rp>)</rp></ruby>
 		);
