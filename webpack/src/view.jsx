@@ -186,8 +186,6 @@ export class Review {
 	 * @return {string} 刊行年月
 	 */
 	get pubdate() {
-		let month = this._pubdate.substring(4);
-		if (month.substring(0, 1) === '0') month = month.substring(1);
 		return (
 			<>
 				{convertPubdateFormat(this._pubdate)}刊行
@@ -416,6 +414,11 @@ export class ReviewsView {
 export function convertPubdateFormat(pubdate) {
 	let month = pubdate.substring(4);
 	if (month.substring(0, 1) === '0') month = month.substring(1);
+	if (month === '0'){
+		return (
+			<>{pubdate.substring(0, 4)}年</>
+		)
+	}
 	return (
 		<>{pubdate.substring(0, 4)}年{month}月</>
 	)
