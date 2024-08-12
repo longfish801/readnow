@@ -112,7 +112,7 @@ class AddData {
 		 */
 		TpacHandle getHandle(){
 			// 著者名、書名、その他の書誌情報を抽出します
-			String rex = /^([^『]+)『([^』]+)』（([^）]+)）$/
+			String rex = /^([^『]+)『(.+)』（([^）]+)）$/
 			def matcher = (biblio =~ rex)
 			if (matcher.size() == 0){
 				throw new Exception ("書誌情報が不正です。biblio=${biblio}")
