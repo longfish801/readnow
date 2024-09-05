@@ -160,6 +160,10 @@ class PublicData {
 				['title', 'abbre', 'body', 'secret', 'note'].each { String key ->
 					String text
 					if (key == 'abbre'){
+						text = review.name.replaceAll('_sharp_', '#')
+						text = review.name.replaceAll('_slash_', '/')
+						text = review.name.replaceAll('_colon_', ':')
+						text = review.name.replaceAll(/__/, '　')
 						text = review.name.replaceAll(/_/, ' ')
 						text = text.replaceAll(/\|/, ' / ')
 					} else if (review.map.containsKey(key)){

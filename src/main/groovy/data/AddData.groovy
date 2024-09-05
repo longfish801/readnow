@@ -120,14 +120,8 @@ class AddData {
 			String fullAuthor = matcher[0][1]
 			String fullTitle = matcher[0][2]
 			List otherBibs = matcher[0][3].split('／')
-			// 書名を解析します
-			int titleDivIdx = fullTitle.indexOf('　')
-			String title = (titleDivIdx >= 0)? fullTitle.substring(0, titleDivIdx): fullTitle
-			title = title.replaceAll(' ', '_')
 			// 著者名を解析します
 			List authors = (fullAuthor.find(/[ 、]/) != null)? fullAuthor.split(/[ 、]/) : [ fullAuthor ]
-			// 略称を作成します
-			String abbre = '★' + authors.join('_') + '|' + title
 			// その他の書誌情報を解析します
 			String pubdate = (otherBibs.size() > 0)? otherBibs.removeLast() : ''
 			if (pubdate.empty){
@@ -161,7 +155,13 @@ class AddData {
 			keywords << publisher
 
 			// ハンドルに書誌情報を格納します
-			TpacHandle handle = new TpacHandle(tag: 'review', name: abbre)
+			String name = '★' + authors.join(' ') + '|' + fullTitle
+			name = name.replaceAll(' ', '_')
+			name = name.replaceAll('　', '__')
+			name = name.replaceAll('#', '_sharp_')
+			name = name.replaceAll('/', '_slash_')
+			name = name.replaceAll(':', '_colon_')
+			TpacHandle handle = new TpacHandle(tag: 'review', name: name)
 			handle.title = fullTitle
 			if (authors.size() == 1){
 				handle.authors = authors[0]

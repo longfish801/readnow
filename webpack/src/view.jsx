@@ -188,7 +188,7 @@ export class Review {
 	get pubdate() {
 		return (
 			<>
-				{convertPubdateFormat(this._pubdate)}刊行
+				{convertPubdateFormat(this._pubdate, true)}刊行
 			</>
 		);
 	}
@@ -303,6 +303,10 @@ export class Review {
 		);
 	}
 
+	/**
+	 * 書誌情報を表示します。
+	 * @return {string} 書誌情報
+	 */
 	get biblio() {
 		let bibs = [];
 		if (this._authors.length > 0 || this._creators.length > 0) {
@@ -411,15 +415,17 @@ export class ReviewsView {
  * @param {string} 刊行年月（yyyymm）
  * @return {string} 刊行年月（yyyy年m月）
  */
-export function convertPubdateFormat(pubdate) {
+export function convertPubdateFormat(pubdate, doLink = false) {
+	let yyyy = pubdate.substring(0, 4);
 	let month = pubdate.substring(4);
 	if (month.substring(0, 1) === '0') month = month.substring(1);
-	if (month === '0'){
+	let linkedText = (month === '0')? `${yyyy}年` : `${yyyy}年${month}月`;
+	if (doLink){
 		return (
-			<>{pubdate.substring(0, 4)}年</>
+			<NavLink to={`/pubdates/${yyyy}#${pubdate}`}>{linkedText}</NavLink>
 		)
 	}
 	return (
-		<>{pubdate.substring(0, 4)}年{month}月</>
+		<>{linkedText}</>
 	)
 }
