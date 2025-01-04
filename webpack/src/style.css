@@ -32,13 +32,6 @@ span.tag {
 	padding: 0.5rem 0.5rem;
 	margin: 0rem 0.2rem;
 }
-span.best {
-	background-color: #FFCC99;
-	border-radius: 10px;
-	font-size: 1.1rem;
-	padding: 0.5rem 0.5rem;
-	margin: 0rem 0.2rem;
-}
 /* 隠蔽 */
 div.unseen {
 	margin: 0.7rem 0rem;

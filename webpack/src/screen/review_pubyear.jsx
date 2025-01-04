@@ -4,8 +4,7 @@
 import * as React from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
-import { getMasterData } from '../datasource';
-import { ReviewHandler } from '../model';
+import { getMasterData, getReviwsData } from '../datasource';
 import { useScript } from '../controller';
 import { Master, Review, convertPubdateFormat } from '../view';
 
@@ -17,7 +16,7 @@ import { Master, Review, convertPubdateFormat } from '../view';
 export async function pubyearLoader({ params }) {
 	let view;
 	try {
-		const reviewsData = await ReviewHandler.getByPubyear(params.yyyy);
+		const reviewsData = await getReviwsData(params.yyyy);
 		const masterData = await getMasterData();
 		view = PubyearView.build(reviewsData, masterData, params.yyyy);
 	} catch (err) {
@@ -69,9 +68,10 @@ class PubyearView {
 	 */
 	static build(reviewsData, masterData, pubyear) {
 		let pubdateViews = [];
-		const master = new Master(masterData)
-		reviewsData.forEach((reviewsByPubdate, pubdate) => {
-			const view = PubdateView.build(reviewsByPubdate, master, pubdate);
+		const master = new Master(masterData);
+		const pubdatesYear = master.pubdates[pubyear];
+		Object.keys(pubdatesYear).sort().forEach((pubdate) => {
+			const view = PubdateView.build(reviewsData, master, pubdate, pubdatesYear[pubdate]);
 			pubdateViews.push(view);
 		})
 		return new PubyearView(pubdateViews, pubyear);
@@ -143,15 +143,16 @@ class PubdateView {
 
 	/**
 	 * PubdateViewインスタンスを生成します。
-	 * @param {Map} reviewsByPubdate 感想オブジェクトを格納したマップ
+	 * @param {Map} reviewsData 感想オブジェクトを格納したマップ
 	 * @param {Master} master Master
 	 * @param {String} pubdate 刊行年月
+	 * @param {Array} reviewIDs IDのリスト
 	 * @return {PubdateView} PubdateView
 	 */
-	static build(reviewsByPubdate, master, pubdate) {
+	static build(reviewsData, master, pubdate, reviewIDs) {
 		let reviews = [];
-		for (const reviewData of reviewsByPubdate.values()) {
-			const review = new Review(reviewData, master);
+		for (const reviewID of reviewIDs){
+			const review = new Review(reviewsData[reviewID], master);
 			reviews.push(review);
 		}
 		return new PubdateView(reviews, pubdate);

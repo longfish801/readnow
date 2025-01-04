@@ -5,34 +5,42 @@
  */
 package executor
 
-import data.DraftData
-import data.PublicData
+import io.DraftIO
+import io.PublicIO
 import executor.Config as conf
-import org.slf4j.LoggerFactory
-import tool.CypressExecutor
+import groovy.util.logging.Slf4j
+import tool.E2ETestTool
 
-def LOG = LoggerFactory.getLogger('ISBNGetter')
-
-// E2Eテスト用の原稿フォルダ
-File draftDir = new File(conf.amaisbn.dir, 'readnow/draft')
-// 公開原稿ファイルの出力フォルダ
-File pubDir = conf.docs.dir
-// Cypress実行ツールのフォルダ
-File amaisbnDir = conf.amaisbn.dir
-
-try {
-	LOG.info('BGN ALL:Execute E2E Test')
-	// E2Eテスト用の原稿を公開原稿に変換します
-	def drafts = new DraftData(draftDir).load()
-	def pubData = new PublicData(pubDir, false)
-	def pubDrafts = pubData.generate(drafts)
-	pubData.save(pubDrafts)
-	// Cypress実行ツールを用いてE2Eテストを実行します
-	def tool = new CypressExecutor(amaisbnDir)
-	tool.doE2ETest()
-	LOG.info('END ALL:Execute E2E Test')
-} catch (exc){
-	String message = 'Failed to execute E2E Test, check the log for details.'
-	LOG.error(message, exc)
-	throw new Exception(message)
+/**
+ * E2Eテストを実行します。
+ */
+@Slf4j('LOG')
+class E2ETestExecutor {
+	/**
+	 * メイン処理です。
+	 */
+	static void main(String[] args){
+		try {
+			LOG.info('BGN ALL:E2Eテストを実行します')
+			new E2ETestExecutor().execute()
+			LOG.info('END ALL:E2Eテストを実行します')
+		} catch (exc){
+			String message = 'E2Eテストの実行に失敗しました。'
+			LOG.error(message, exc)
+			throw new Exception(message)
+		}
+	}
+	
+	/**
+	 * メイン処理です。
+	 */
+	void execute(){
+		// E2Eテスト用の原稿を公開原稿に変換します
+		File draftDir = new File(conf.amaisbn.dir, 'readnow/draft')
+		PublicDataGenerator generator = new PublicDataGenerator()
+		generator.execute(draftDir, conf.docs.dir, conf.docs.pretty)
+		// ISBN取得ツールを用いてE2Eテストを実行します
+		def tool = new E2ETestTool(conf.amaisbn.dir)
+		tool.execute()
+	}
 }

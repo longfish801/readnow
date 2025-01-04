@@ -42,17 +42,15 @@ export class ReviewHandler {
 		const pubyears = Object.keys(idsMap);
 		pubyears.sort();
 		for (const pubyear of pubyears) {
-			const reviewMap = await ReviewHandler.getByPubyear(pubyear);
+			const reviewMap = await getReviwsData(pubyear);
 			const ids = idsMap[pubyear];
 			ids.sort();
 			for (const reviewID of ids) {
-				const pubdate = reviewID.substring(0, 6);
-				if (reviewMap.get(pubdate) === undefined
-				 || reviewMap.get(pubdate).get(reviewID) === undefined) {
+				if (reviewMap[reviewID] === undefined) {
 					missIDs.push(reviewID);
 					continue;
 				}
-				reviews.push(reviewMap.get(pubdate).get(reviewID));
+				reviews.push(reviewMap[reviewID]);
 			}
 		}
 		if (missIDs.length > 0) {
@@ -61,32 +59,6 @@ export class ReviewHandler {
 			throw new Error(msg);
 		}
 		return reviews;
-	}
-
-	/**
-	 * 指定された刊行年について感想オブジェクトを返します。
-	 * 戻り値のキーは刊行年月、値はその刊行年月の感想のマップです。
-	 * 感想のマップはキーがID、値が感想オブジェクトです。
-	 * @param {string} pubyear 刊行年
-	 * @return {Map} 指定された刊行年の感想オブジェクトを格納したマップ
-	 */
-	static async getByPubyear(pubyear) {
-		const reviewsData = await getReviwsData(pubyear);
-		let pubdates = Object.keys(reviewsData);
-		pubdates.sort();
-		let reviewMap = new Map();
-		for (const pubdate of pubdates) {
-			const reviewMapPubdate = reviewsData[pubdate];
-			let reviewIDs = Object.keys(reviewMapPubdate);
-			reviewIDs.sort();
-			let reviews = new Map();
-			for (const reviewID of reviewIDs) {
-				const review = reviewMapPubdate[reviewID];
-				reviews.set(reviewID, review);
-			}
-			reviewMap.set(pubdate, reviews);
-		}
-		return reviewMap;
 	}
 }
 

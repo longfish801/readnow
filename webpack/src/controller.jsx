@@ -13,7 +13,9 @@ import { Master } from './view';
 export function useScript() {
 	const location = useLocation();
 	React.useEffect(() => {
+		let isScriptLoad = false;
 		if (document.getElementById('main_external') == null) {
+			isScriptLoad = true;
 			const scriptTag = document.createElement('script');
 			scriptTag.id = 'main_external';
 			scriptTag.type = 'module';
@@ -22,6 +24,13 @@ export function useScript() {
 			head.appendChild(scriptTag);
 		}
 		window.dispatchEvent(new Event('newscreen'));
+		// 初回はJavaScriptの読込に時間を要するため、
+		// 一秒だけ待機してからイベントを起こす
+		if (isScriptLoad){
+			setTimeout(() => {
+				window.dispatchEvent(new Event('newscreen'));
+			}, 1000);
+		}
 	}, [location.pathname]);
 }
 

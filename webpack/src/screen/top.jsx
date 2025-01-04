@@ -2,36 +2,98 @@
  * トップ画面。
  */
 import * as React from 'react';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { NavLink, useLoaderData } from 'react-router-dom';
 import { useScript } from '../controller';
+import { getMasterData } from '../datasource';
+import { ReviewHandler } from '../model';
+import { Master, Review, ReviewsView } from '../view';
 
+/**
+ * トップ画面の表示内容です。
+ */
 export function Top() {
 	useScript();
+	const { view } = useLoaderData();
 	return (
-		<>
-			<h1>ご案内</h1>
-			<h2>このサイトについて</h2>
-			<p>　本の感想を載せています。<br />
-			　国内のミステリ作品が大半です。</p>
-
-			<p>　2010年からTwitter / Xにて週に一冊ほどのペースで感想をつぶやいており、それをまとめたものとなります。<br />
-			　新しい感想は年に一回まとめて追加します。</p>
-
-			<h2>注意点</h2>
-			<ul>
-				<li>必ずしも Twitter / Xでの公開時の文章のままではありません。<br />
-					推敲するなど手を加えていることがあります。</li>
-				<li>刊行年は、その作品が書籍として初めて刊行された年としています。<br />
-					たとえば読んだのが文庫落ち、別の出版社からの再刊や復刊、新装改訂版の類の場合は、その本が刊行された年を記しているわけではないことにご注意ください。<br />
-					また翻訳作品について、小説は海外での刊行年を、それ以外は国内での刊行年を記しています。</li>
-				<li>デジタルフォントでは表示できない一部の文字について代替となる文字を使用しています。<br />
-					たとえば泡坂妻夫の「泡」は、正しくは「己」ではなく「巳」です。</li>
-				<li>書影には<a href="https://ndlsearch.ndl.go.jp/help/api/thumbnail" target="_base">国立国会図書館サーチが提供する書影API</a>を利用しています。<br />
-					書影をクリックすると作品タイトルなどによる Google検索の結果が表示されます。</li>
-				<li>シリーズ名はできるだけ帯やあらすじ紹介、版元のサイトに記されているものを使用していますが、みあたらない場合は独自に考案したものを用いる場合があります。</li>
-				<li>作品の内容に踏みこみすぎて興趣を削ぐ（いわゆるネタバレ）ことにならないよう留意しています。<br />
-					とはいえ、どこからがネタバレに相当するのかは明確な基準はなく、人によって判断が異なります。ご了承いただければと思います。</li>
-				<li>Twitter上で2018年9月の終わり頃以降に投稿した感想については奥付に記された刊行年月を記しています。それ以前は出版社のサイトや<a href="https://ja.wikipedia.org/" target="_base">Wikipedia</a>、<a href="https://www.amazon.co.jp/gp/browse.html?node=465392&ref_=nav_em__jb_0_2_10_2"  target="_base">Amazon</a>の商品ページから刊行年月と思われるものを参照しているため、本来の刊行年月とは一月ほど前後している可能性があります。</li>
-			</ul>
-		</>
+		<HelmetProvider>
+			<Helmet>
+				<title>読了なう</title>
+			</Helmet>
+			<h1 id="header">読了なう</h1>
+			<p>　主に国内ミステリについて本の感想を載せています。<br />
+			　詳細は<NavLink to="/guide/">ご案内</NavLink>を参照してください。<br />
+			　以下はランダムに感想を５件表示しています。</p>
+			{view.toc}
+			{view.content}
+		</HelmetProvider>
 	);
+}
+
+/**
+ * トップ画面に必要なデータを返します。
+ * @param {Object} params パスパラメータ
+ * @return {ReviewView} ReviewView
+ */
+export async function topLoader({ params }) {
+	let view;
+	try {
+		// 過去10年分のレビューIDのリストを作成します
+		const masterData = await getMasterData();
+		const pubyears = masterData.pubyears.slice(-10);
+		let reviewIDs = [];
+		for (const yyyy of pubyears){
+			Object.values(masterData.pubdates[yyyy]).forEach(yyyymmRevIDs => {
+				reviewIDs.push(...yyyymmRevIDs);
+			});
+		}
+		// 5件のレビューIDをランダムに選びます
+		const randomReviewIDs = [];
+		while (randomReviewIDs.length < 5) {
+			const randomIdx = Math.floor(Math.random() * reviewIDs.length);
+			if (!randomReviewIDs.includes(reviewIDs[randomIdx])){
+				randomReviewIDs.push(reviewIDs[randomIdx]);
+			}
+		}
+		// 感想データを取得します
+		const reviewsData = await ReviewHandler.getByIDs(randomReviewIDs);
+		view = TopView.build(reviewsData, masterData);
+	} catch (err) {
+		const msg = 'トップ画面に必要なデータを取得できませんでした。';
+		console.trace(msg, err, params);
+		throw new Response(null, { status: 404, statusText: 'Not Found' });
+	}
+	return { view };
+}
+
+/**
+ * トップ画面の表示内容です。
+ */
+class TopView extends ReviewsView {
+	/**
+	 * コンストラクタです。
+	 * @param {Array} reviews Reviewのリスト
+	 * @param {Master} master Master
+	 */
+	constructor(reviews, master) {
+		super(reviews);
+		this.master = master;
+	}
+
+	/**
+	 * TopViewインスタンスを生成します。
+	 * @param {Array} reviewsData 感想オブジェクトのリスト
+	 * @param {Object} masterData マスタデータ
+	 * @param {String} tagID タグID
+	 * @return {TagView} TagView
+	 */
+	static build(reviewsData, masterData) {
+		let reviews = [];
+		const master = new Master(masterData);
+		for (const reviewData of reviewsData){
+			const review = new Review(reviewData, master);
+			reviews.push(review);
+		}
+		return new TopView(reviews, master);
+	}
 }

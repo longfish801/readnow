@@ -1,0 +1,6 @@
+// Wikipedia
+wiki {
+	// URL
+	url = ''
+}
+

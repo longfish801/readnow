@@ -7,6 +7,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 export function PubyearIndex() {
 	const { master } = useLoaderData();
+	const pubyears = master.pubyears.reverse()
 	return (
 		<HelmetProvider>
 			<Helmet>
@@ -14,7 +15,7 @@ export function PubyearIndex() {
 			</Helmet>
 			<h1 id="header">刊行年一覧</h1>
 			<ul>
-				{master.pubyears.reverse().map((pubyear) => (
+				{pubyears.map((pubyear) => (
 					<li key={pubyear}><NavLink to={`/pubdates/${pubyear}`}>{pubyear}年</NavLink></li>
 				))}
 			</ul>

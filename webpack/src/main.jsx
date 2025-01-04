@@ -8,17 +8,16 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { masterLoader } from './controller';
 import { Reviews } from './view';
 import { Error } from './screen/error';
-import { Top } from './screen/top';
+import { Guide } from './screen/guide';
+import { Top, topLoader } from './screen/top';
 import { Menu } from './screen/menu';
 import { PubyearIndex } from './screen/index_pubyear';
 import { AuthorsIndex } from './screen/index_author';
 import { TagsIndex } from './screen/index_tag';
-import { BestsIndex } from './screen/index_best';
 import { singleLoader, SingleReview } from './screen/review_single';
 import { pubyearLoader, PubyearReviews } from './screen/review_pubyear';
 import { authorLoader } from './screen/review_author';
 import { tagLoader } from './screen/review_tag';
-import { bestLoader } from './screen/review_best';
 import './style.css';
 
 const router = createBrowserRouter([
@@ -31,6 +30,12 @@ const router = createBrowserRouter([
 			{
 				index: true, 
 				element: <Top />,
+				loader: topLoader,
+			},
+			{
+				path: "guide/",
+				element: <Guide />,
+				loader: masterLoader,
 			},
 			{
 				path: "reviews/:reviewID",
@@ -66,16 +71,6 @@ const router = createBrowserRouter([
 				path: "tags/:tagID",
 				element: <Reviews />,
 				loader: tagLoader,
-			},
-			{
-				path: "bests",
-				element: <BestsIndex />,
-				loader: masterLoader,
-			},
-			{
-				path: "bests/:bestID",
-				element: <Reviews />,
-				loader: bestLoader,
 			},
 		],
 	}

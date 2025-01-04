@@ -1,7 +1,7 @@
-// 追加感想
-additional {
+// 下書き感想
+rough {
 	// フォルダ
-	dir = new File('draft/additional')
+	dir = new File('rough')
 }
 
 // 原稿
@@ -14,9 +14,11 @@ draft {
 docs {
 	// フォルダ
 	dir = new File('docs/json')
+	// 整形するか否か
+	pretty = false
 }
 
-// Cypress実行ツール
+// ISBN取得ツール
 amaisbn {
 	// フォルダ
 	dir = new File('amaisbn')

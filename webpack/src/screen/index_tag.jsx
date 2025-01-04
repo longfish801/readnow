@@ -13,13 +13,42 @@ export function TagsIndex() {
 				<title>読了なう - タグ一覧</title>
 			</Helmet>
 			<h1 id="header">タグ一覧</h1>
-			<ul>
-				{Object.values(master.tags).sort((pre, nxt) => {
-					return (pre.name < nxt.name) ? -1 : 1;
-				}).map(tag => (
-					<li key={tag.id}><NavLink to={`/tags/${tag.id}`}>{tag.name}</NavLink></li>
-				))}
-			</ul>
+			{master.categories.map(category => (
+				tagsEachCategoryLinks(category, master)
+			))}
 		</HelmetProvider>
+	);
+}
+
+/**
+ * カテゴリ毎のタグ別一覧画面へのリンク一覧です。
+ * @param {Object} category カテゴリ情報
+ * @param {Master} master マスタ
+ * @return {String} カテゴリ配下のタグ別一覧画面へのリンク
+ */
+function tagsEachCategoryLinks(category, master) {
+	return (
+		<div key={category.id}>
+			<h2 id={category.id}>
+				{category.name}
+				<div className="float-end fs-6"><a href="#header"><i className="bi bi-chevron-double-up"></i></a></div>
+			</h2>
+			<ul>
+			{category.tags.map(tagID => (
+				reviewTagLink(master.tags[tagID])
+			))}
+			</ul>
+		</div>
+	);
+}
+
+/**
+ * タグ別一覧画面へのリンクです。
+ * @param {Object} tag タグ情報
+ * @return {String} タグ別一覧画面へのリンク
+ */
+function reviewTagLink(tag) {
+	return (
+		<li key={tag.id}><NavLink to={`/tags/${tag.id}`}>{tag.name}</NavLink></li>
 	);
 }

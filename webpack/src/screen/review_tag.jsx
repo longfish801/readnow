@@ -1,6 +1,7 @@
 /**
  * タグ別一覧画面。
  */
+import * as React from 'react';
 import { getMasterData } from '../datasource';
 import { ReviewHandler } from '../model';
 import { Master, Review, ReviewsView } from '../view';
@@ -36,6 +37,14 @@ class TagView extends ReviewsView {
 	 * @param {String} tagID タグID
 	 */
 	constructor(reviews, master, tagID) {
+		// タグ値がある場合はそれでソートします
+		reviews.sort((pre, nxt) => {
+			const preTag = pre._tags.find((tag) => tag.id === tagID);
+			const nxtTag = nxt._tags.find((tag) => tag.id === tagID);
+			const preValue = ('value' in preTag)? preTag.value : '';
+			const nxtValue = ('value' in nxtTag)? nxtTag.value : '';
+			return (preValue < nxtValue) ? 1 : -1;
+		})
 		super(reviews);
 		this.master = master;
 		this.tagID = tagID;
@@ -68,5 +77,36 @@ class TagView extends ReviewsView {
 	get pageTitle() {
 		const tag = this.master.tags[this.tagID];
 		return (tag.name);
+	}
+
+	/** @inheritdoc */
+	get toc() {
+		if (this.reviews.length <= 1) return (<></>);
+		return (
+			<ul className="toc">
+				{this.reviews.map((review) =>
+					<li key={review.id}>
+						{review.tagValue(this.tagID, '%s ')}{review.tocLink}
+					</li>
+				)}
+			</ul>
+		);
+	}
+
+	/** @inheritdoc */
+	get content() {
+		return (
+			<>
+				{this.reviews.map((review) =>
+					<div key={review.id}>
+						<h2 id={review.id}>
+							{review.tagValue(this.tagID, '%s ')}{review.titleLink}
+							<div className="float-end fs-6"><a href="#header"><i className="bi bi-chevron-double-up"></i></a></div>
+						</h2>
+						{review.content}
+					</div>
+				)}
+			</>
+		);
 	}
 }

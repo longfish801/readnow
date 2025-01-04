@@ -19,9 +19,10 @@ export class Master {
 	 */
 	constructor(masterData) {
 		this.pubyears = masterData.pubyears;
+		this.pubdates = masterData.pubdates;
 		this.authors = masterData.authors;
 		this.tags = masterData.tags;
-		this.bests = masterData.bests;
+		this.categories = masterData.categories;
 	}
 
 	/**
@@ -77,17 +78,6 @@ export class Master {
 			<NavLink to={`/tags/${tagID}`}>{tag.name}</NavLink>
 		);
 	}
-
-	/**
-	 * ベストへのリンクを返します。
-	 * @return {string} ベストへのリンク
-	 */
-	getBestLink(bestID) {
-		const best = this.bests[bestID];
-		return (
-			<NavLink to={`/bests/${bestID}`}>{best.name}</NavLink>
-		);
-	}
 }
 
 /**
@@ -111,7 +101,6 @@ export class Review {
 		this.isbn = review.isbn;
 		this.keyword = review.keyword;
 		this._tags = ('tags' in review) ? review.tags : [];
-		this._bests = ('bests' in review) ? review.bests : [];
 		this._body = review.body;
 		this._secret = review.secret;
 		this._note = review.note;
@@ -163,10 +152,12 @@ export class Review {
 	get authors() {
 		let authorList = [];
 		for (const author of this._authors) {
-			authorList.push({ id: author.id, format: author.format });
+			const format = ('format' in author)? author.format : '%s';
+			authorList.push({ id: author.id, format: format });
 		}
 		for (const creator of this._creators) {
-			authorList.push({ id: creator.id, format: creator.format });
+			const format = ('format' in creator)? creator.format : '%s';
+			authorList.push({ id: creator.id, format: format });
 		}
 		return (
 			<>
@@ -213,9 +204,9 @@ export class Review {
 		if (this._tags.length === 0) return null
 		return (
 			<>
-				{this._tags.map((tagID) => (
-					<span key={tagID} className="tag">
-						{this.master.getTagLink(tagID)}
+				{this._tags.map((tag) => (
+					<span key={tag.id} className="tag">
+						{this.master.getTagLink(tag.id)}{this.tagValue(tag.id, ' %s')}
 					</span>
 				))}
 			</>
@@ -223,29 +214,15 @@ export class Review {
 	}
 
 	/**
-	 * ベストを返します。
-	 * @return {string} ベスト
+	 * タグ値を返します。
+	 * @param tagID {string} タグID
+	 * @param format {string} フォーマット（文字列"%s"をタグ値と置換する）
+	 * @return {string} タグ値
 	 */
-	get bests() {
-		if (this._bests.length === 0) return null
-		return (
-			<>
-				{this._bests.map((best) => (
-					<span key={best.id} className="best">
-						{this.master.getBestLink(best.id)} {best.value}
-					</span>
-				))}
-			</>
-		);
-	}
-
-	/**
-	 * ベスト値を返します。
-	 * @param bestID {string} ベストID
-	 * @return {string} ベスト値
-	 */
-	bestValue(bestID) {
-		return this._bests.find(best => best.id === bestID).value;
+	tagValue(tagID, format) {
+		const tag = this._tags.find(tag => tag.id === tagID);
+		if ('value' in tag === false) return '';
+		return format.replace('%s', tag.value);
 	}
 
 	/**
@@ -315,7 +292,6 @@ export class Review {
 		bibs.push(this.publisher);
 		bibs.push(this.pubdate);
 		if (this._tags.length > 0) bibs.push(this.tags);
-		if (this._bests.length > 0) bibs.push(this.bests);
 		return (
 			<div className="biblio">
 				{bibs.reduce((pre, cur) => {

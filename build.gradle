@@ -35,14 +35,14 @@ test {
 
 // 使用方法を表示します
 tasks.register('usage') {
-	println 'See design/operation.md.'
+	println 'See spec/operation.md.'
 }
 
-// 使用方法を表示します
+// 事前準備を実行します
 tasks.register('setup') {
 	def process
 	String npmCmd = /C:\Program Files\nodejs\npm.cmd/
-	// Cypress実行ツールに必要なパッケージをインストールします
+	// ISBN取得ツールに必要なパッケージをインストールします
 	println '=== Install packages for ISBN tool.'
 	process = "${npmCmd} install".execute(null, new File('amaisbn'))
 	println process.text
@@ -56,10 +56,10 @@ tasks.register('setup') {
 	println process.text
 }
 
-// 追加感想履歴ファイルを追加感想最新ファイルに変換します
+// 感想履歴ファイルを追加感想ファイルに変換します
 tasks.register('latest', JavaExec) {
 	dependsOn 'classes'
-	mainClass = 'executor.AddDataConvertor'
+	mainClass = 'executor.RoughConvertor'
 	classpath = sourceSets.test.runtimeClasspath
 }
 
@@ -70,7 +70,7 @@ tasks.register('isbn', JavaExec) {
 	classpath = sourceSets.test.runtimeClasspath
 }
 
-// 追加感想最新ファイルを原稿に反映します
+// 追加感想ファイルを原稿に反映します
 tasks.register('merge', JavaExec) {
 	dependsOn 'classes'
 	mainClass = 'executor.DraftDataMerger'
