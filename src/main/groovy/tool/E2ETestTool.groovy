@@ -19,6 +19,15 @@ class E2ETestTool extends CypressTool {
 	String scriptFpath = 'cypress/e2e/spec.cy.js'
 
 	/**
+	 * コンストラクタ。
+	 * ルートフォルダはcypressフォルダの直上フォルダを指定してください。
+	 * @param rootDir ルートフォルダ
+	 */
+	E2ETestTool(File rootDir){
+		super(rootDir)
+	}
+
+	/**
 	 * E2Eテストを実行します。
 	 */
 	void execute(){

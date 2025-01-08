@@ -25,6 +25,15 @@ class ISBNGetTool extends CypressTool {
 	String coverFpath = 'readnow/cover.html'
 
 	/**
+	 * コンストラクタ。
+	 * ルートフォルダはcypressフォルダの直上フォルダを指定してください。
+	 * @param rootDir ルートフォルダ
+	 */
+	ISBNGetTool(File rootDir){
+		super(rootDir)
+	}
+
+	/**
 	 * Amazonで検索した本についてISBNを取得します。
 	 * @param keywordMap タイトルと検索キーワードのマップ
 	 */
