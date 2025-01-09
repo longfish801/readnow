@@ -38,8 +38,8 @@ class MasterData implements TeaDec {
 		}
 		List authors = []
 		authors << newReview.authors
-		authors << newReview.creators
-		authors.flatten().findAll { it != null && it.length() > 0 }.collect {
+		if (newReview.creators != null) authors << newReview.creators
+		authors.flatten().collect {
 			// 補足情報を削除します
 			it.replaceAll(/［([^］]+)］/, '')
 		}.each { String author ->
@@ -52,21 +52,24 @@ class MasterData implements TeaDec {
 
 		// 存在しないタグがあればハンドルを追加します
 		// あわせてカテゴリにも未整理として追加します
-		if (solve('tags') == null){
-			this << new TpacHandle(tag: 'tags')
-		}
-		if (solve('categories') == null){
-			TeaHandle categories = new TpacHandle(tag: 'categories')
-			categories << new TpacHandle(tag: 'category', name: '★未整理')
-			this << categories
-			solve('categories/category:★未整理').dflt = []
-		}
-		[ newReview.tags ].flatten().each { String tag ->
-			// タグ値を削除します
-			tag = tag.replaceAll(/\ .+$/, '')
-			if (solve('tags').solve("tag:${tag}") == null){
-				solve('tags') << new TpacHandle(tag: 'tag', name: tag)
-				solve('categories/category:★未整理').dflt << tag
+		if (newReview.tags != null){
+			if (solve('tags') == null){
+				this << new TpacHandle(tag: 'tags')
+			}
+			if (solve('categories') == null){
+				this << new TpacHandle(tag: 'categories')
+			}
+			[ newReview.tags ].flatten().each { String tag ->
+				// タグ値を削除します
+				tag = tag.replaceAll(/\ .+$/, '')
+				if (solve('tags').solve("tag:${tag}") == null){
+					solve('tags') << new TpacHandle(tag: 'tag', name: tag)
+					if (solve('categories/category:★未整理') == null){
+						solve('categories') << new TpacHandle(tag: 'category', name: '★未整理')
+						solve('categories/category:★未整理').dflt = []
+					}
+					solve('categories/category:★未整理').dflt << tag
+				}
 			}
 		}
 	}
