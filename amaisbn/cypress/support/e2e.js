@@ -22,7 +22,7 @@ Cypress.Commands.add('get_isbn', (name, keywords) => {
 		.get('input#nav-search-submit-button')
 		.click()
 	// 検索結果の先頭のリンクをクリックする
-	cy.get('h2.a-size-mini a')
+	cy.get('a.a-text-normal')
 		.first()
 		.then(($anchor) => {
 			cy.get_isbn_prodpage($anchor.attr('href'), name, keywords, true)

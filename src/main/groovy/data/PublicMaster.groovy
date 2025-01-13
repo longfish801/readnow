@@ -102,12 +102,18 @@ class PublicMaster extends LinkedHashMap {
 			}
 			this.pubdates[yyyy][review.pubdate] << id
 			review.authors.each { Map author ->
+				if (!this.authors.containsKey(author.id)){
+					throw new Exception("該当する著者がいません。author=${author}, review=${review}")
+				}
 				if (!this.authors[author.id].containsKey('reviews')){
 					this.authors[author.id].reviews = []
 				}
 				this.authors[author.id].reviews << id
 			}
 			review.creators.each { Map creator ->
+				if (!this.authors.containsKey(creator.id)){
+					throw new Exception("該当する制作者がいません。creator=${creator}, review=${review}")
+				}
 				if (!this.authors[creator.id].containsKey('reviews')){
 					this.authors[creator.id].reviews = []
 				}
@@ -115,8 +121,7 @@ class PublicMaster extends LinkedHashMap {
 			}
 			review.tags.each { Map tag ->
 				if (!this.tags.containsKey(tag.id)){
-					LOG.info('★tag={}', tag)
-					LOG.info('★tags={}', this.tags)
+					throw new Exception("該当するタグがありません。tag=${tag}, review=${review}")
 				}
 				if (!this.tags[tag.id].containsKey('reviews')){
 					this.tags[tag.id].reviews = []

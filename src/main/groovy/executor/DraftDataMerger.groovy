@@ -68,7 +68,7 @@ class DraftDataMerger {
 		// 刊行年月順に感想をソートします
 		reviewsServer.decs = reviewsServer.decs.values().collectEntries { def reviews ->
 			reviews.lowers = reviews.lowers.values().sort { reviewA, reviewB ->
-				reviewA.pubMonth <=> reviewA.pubMonth
+				reviewA.pubMonth <=> reviewB.pubMonth
 			}.collectEntries { [ it.key, it ] }
 			return [ reviews.key, reviews ]
 		}
