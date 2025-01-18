@@ -2,10 +2,20 @@
  * 案内画面。
  */
 import * as React from 'react';
+import { useLoaderData } from 'react-router-dom';
 import { useScript } from '../controller';
 
 export function Guide() {
 	useScript();
+	const { master } = useLoaderData();
+	// 感想の総件数を求めます
+	let totalRevNum = 0;
+	Object.keys(master.pubdates).forEach(yyyy => {
+		Object.keys(master.pubdates[yyyy]).forEach(yyyymm => {
+			totalRevNum += master.pubdates[yyyy][yyyymm].length;
+		});
+	});
+
 	return (
 		<>
 			<h1>ご案内</h1>
@@ -14,7 +24,8 @@ export function Guide() {
 			　国内のミステリ作品が大半です。</p>
 
 			<p>　2010年からTwitter / X、2024年からBlueskyにて週に一冊ほどのペースで感想をつぶやいており、それをまとめたものとなります。<br />
-			　新しい感想は年に一回まとめて追加します。</p>
+			　新しい感想は年に一回まとめて追加します。<br />
+			　現在、{totalRevNum.toLocaleString()}件の感想があります。</p>
 
 			<h2>注意点</h2>
 			<ul>

@@ -2,6 +2,11 @@ describe('spec', () => {
 	it('トップ画面', () => {
 		cy.visit('/readnow/')
 			.get('h1')
+			.should('have.text', '読了なう')
+	})
+	it('案内画面', () => {
+		cy.visit('/readnow/guide')
+			.get('h1')
 			.should('have.text', 'ご案内')
 	})
 	it('刊行年目次画面', () => {
@@ -33,16 +38,6 @@ describe('spec', () => {
 		cy.visit('/readnow/tags/0001')
 			.get('h1')
 			.should('have.text', '特殊設定ミステリ')
-	})
-	it('ベスト目次画面', () => {
-		cy.visit('/readnow/bests')
-			.get('h1')
-			.should('have.text', 'ベスト一覧')
-	})
-	it('ベスト別一覧画面', () => {
-		cy.visit('/readnow/bests/0001')
-			.get('h1')
-			.should('have.text', '私的ベスト2022')
 	})
 	it('感想表示画面', () => {
 		cy.visit('/readnow/reviews/20220101')

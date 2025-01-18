@@ -38,26 +38,19 @@ export function Top() {
 export async function topLoader({ params }) {
 	let view;
 	try {
-		// 過去10年分のレビューIDのリストを作成します
+		// 過去10年からランダムに5年を選び、そこから1件ずつランダムに選びます
 		const masterData = await getMasterData();
-		const pubyears = masterData.pubyears.slice(-10);
-		let reviewIDs = [];
-		for (const yyyy of pubyears){
-			Object.values(masterData.pubdates[yyyy]).forEach(yyyymmRevIDs => {
-				reviewIDs.push(...yyyymmRevIDs);
+		let randomReviewIDs = [];
+		getRandomNums(masterData.pubyears.slice(-10), 5).forEach(yyyy => {
+			getRandomNums(Object.keys(masterData.pubdates[yyyy]), 1).forEach(yyyymm => {
+				getRandomNums(masterData.pubdates[yyyy][yyyymm], 1).forEach(reviewID => {
+					randomReviewIDs.push(reviewID);
+				});
 			});
-		}
-		// 5件のレビューIDをランダムに選びます
-		const randomReviewIDs = [];
-		while (randomReviewIDs.length < 5) {
-			const randomIdx = Math.floor(Math.random() * reviewIDs.length);
-			if (!randomReviewIDs.includes(reviewIDs[randomIdx])){
-				randomReviewIDs.push(reviewIDs[randomIdx]);
-			}
-		}
+		});
 		// 感想データを取得します
 		const reviewsData = await ReviewHandler.getByIDs(randomReviewIDs);
-		view = TopView.build(reviewsData, masterData);
+		view = TopView.build(reviewsData.reverse(), masterData);
 	} catch (err) {
 		const msg = 'トップ画面に必要なデータを取得できませんでした。';
 		console.trace(msg, err, params);
@@ -96,4 +89,21 @@ class TopView extends ReviewsView {
 		}
 		return new TopView(reviews, master);
 	}
+}
+
+/**
+ * 配列の要素からランダムかつ重複無しの要素を必要個数だけ返します。
+ * なお必要個数が配列の要素数以上ならば、配列をそのまま返します。
+ * @param {Array} list 配列
+ * @param {number} size 必要個数
+ * @return {Array} ランダムな要素のリスト
+ */
+function getRandomNums(list, size){
+	let idxList = [];
+	if (list.length <= size) return list;
+	while (idxList.length < size) {
+		const idx = Math.floor(Math.random() * list.length);
+		if (!idxList.includes(idx)) idxList.push(idx);
+	}
+	return idxList.sort().map((idx) => list[idx]);
 }

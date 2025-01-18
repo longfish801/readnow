@@ -44,7 +44,11 @@ export function AuthorsIndex() {
 					</h2>
 					<ul>
 					{authorMap[firstChr].map(author => (
-						<li key={author.id}><NavLink to={`/authors/${author.id}`}>{master.getAuthorHira(author.id)}</NavLink></li>
+						<li key={author.id}>
+							<NavLink to={`/authors/${author.id}`}>
+								{master.getAuthorHira(author.id)}
+							</NavLink>&ensp;{author.reviews.length}件
+						</li>
 					))}
 					</ul>
 				</div>

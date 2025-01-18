@@ -49,6 +49,10 @@ function tagsEachCategoryLinks(category, master) {
  */
 function reviewTagLink(tag) {
 	return (
-		<li key={tag.id}><NavLink to={`/tags/${tag.id}`}>{tag.name}</NavLink></li>
+		<li key={tag.id}>
+			<NavLink to={`/tags/${tag.id}`}>
+				{tag.name}
+			</NavLink>&ensp;{tag.reviews.length}件
+		</li>
 	);
 }
