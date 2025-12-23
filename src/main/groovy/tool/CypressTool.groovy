@@ -16,9 +16,9 @@ class CypressTool {
 	/** ルートフォルダ */
 	File rootDir
 	/** npxコマンドファイルのパス */
-	String exe = /C:\Program Files\nodejs\npx.cmd/
+	String exe = 'npx'
 	/** ツール実行コマンドのフォーマット */
-	String format = '"%s" cypress run --browser chrome --spec %s --config baseUrl=%s'
+	String format = '%s cypress run --browser chrome --spec %s --config baseUrl=%s'
 
 	/**
 	 * コンストラクタ。

@@ -41,7 +41,7 @@ tasks.register('usage') {
 // 事前準備を実行します
 tasks.register('setup') {
 	def process
-	String npmCmd = /C:\Program Files\nodejs\npm.cmd/
+	String npmCmd = '/opt/homebrew/bin/npm'
 	// ISBN取得ツールに必要なパッケージをインストールします
 	println '=== Install packages for ISBN tool.'
 	process = "${npmCmd} install".execute(null, new File('amaisbn'))

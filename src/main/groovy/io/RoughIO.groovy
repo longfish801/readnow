@@ -66,6 +66,6 @@ class RoughIO {
 		if (txtFiles.length == 0){
 			throw new IOException("感想履歴ファイルがありません。 path=${dir.absolutePath}")
 		}
-		return txtFiles[-1].text
+		return txtFiles[0].text
 	}
 }

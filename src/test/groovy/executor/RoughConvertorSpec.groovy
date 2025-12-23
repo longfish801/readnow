@@ -27,6 +27,6 @@ class RoughConvertorSpec extends Specification {
 		roughConvertor.execute(dir)
 
 		then:
-		new File(dir, 'latest.tpac').text == new File(dir, 'expected.tpac').text
+		new File(dir, 'latest.tpac').text.normalize() == new File(dir, 'expected.tpac').text.normalize()
 	}
 }
