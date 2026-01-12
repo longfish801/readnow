@@ -56,7 +56,7 @@ class RoughIO {
 	/**
 	 * 最新の感想履歴ファイルの内容を取得します。
 	 * ファイル名の昇順で最後、かつ拡張子が txtのファイルを、
-	 * 最新の感想履歴ファイルとみなします。
+	 * 感想履歴ファイルとみなします。
 	 * @throws IOException 感想履歴ファイルがありません。
 	 */
 	String getLatestHistory(){
@@ -66,6 +66,8 @@ class RoughIO {
 		if (txtFiles.length == 0){
 			throw new IOException("感想履歴ファイルがありません。 path=${dir.absolutePath}")
 		}
-		return txtFiles[0].text
+		return txtFiles.sort { left, right ->
+			left.name <=> right.name
+		}[-1].text
 	}
 }
